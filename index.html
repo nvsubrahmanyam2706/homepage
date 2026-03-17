@@ -1397,10 +1397,6 @@ async function loadAlerts() {
       block.style.borderLeft = `4px solid ${ALERT_COLORS[a.type] || "#00FAC2"}`;
     }
 
-    header.style.color = isDelay
-    ? (isLight ? "#B91C1C" : "#FF6B6B")
-    : (isLight ? "#008F66" : "#00FAC2");
-
 
     // HEADER
     const header = document.createElement("div");
