@@ -1130,7 +1130,7 @@ body.light .alert-bell:hover {
       </a>
 
       <!-- RoadRunner Card -->
-      <a href="https://roadrunnerleadershipsurfacemovement.onrender.com/" class="module-card roadrunner-card">
+      <a href="https://roadrunnermovement.onrender.com" class="module-card roadrunner-card">
         <div class="module-image"></div>
         <div class="module-overlay"></div>
         <div class="module-content">
@@ -1312,7 +1312,7 @@ async function loadAlerts() {
 
   try {
 
-    const res = await fetch("/api/alerts");
+    const res = await fetch("https://skybridge-flight-dashboard-6gvy.onrender.com/api/alerts");
     const data = await res.json();
 
     const count = document.getElementById("alertCount");
