@@ -1377,7 +1377,7 @@ async function loadAlerts() {
 
     if (isDelay) {
       block.style.background = isLight
-        ? "linear-gradient(135deg, #ffe4e6, #fff)"
+        ?"linear-gradient(135deg, #fecaca, #fee2e2)"
         : "linear-gradient(135deg, rgba(220,38,38,0.25), rgba(0,0,0,0.9))";
 
       block.style.border = "1px solid rgba(220,38,38,0.5)";
@@ -1396,6 +1396,10 @@ async function loadAlerts() {
 
       block.style.borderLeft = `4px solid ${ALERT_COLORS[a.type] || "#00FAC2"}`;
     }
+
+    header.style.color = isDelay
+    ? (isLight ? "#B91C1C" : "#FF6B6B")
+    : (isLight ? "#008F66" : "#00FAC2");
 
 
     // HEADER
@@ -1422,7 +1426,7 @@ async function loadAlerts() {
     const msg = document.createElement("div");
     msg.style.fontSize = "12px";
     msg.style.color = isDelay
-    ? (isLight ? "#7F1D1D" : "#FFDADA")
+    ? (isLight ? "#991B1B" : "#FFDADA")
     : (isLight ? "#111111" : "rgba(255,255,255,0.75)");
     msg.style.marginTop = "4px";
 
