@@ -1360,15 +1360,55 @@ async function loadAlerts() {
 
     list.innerHTML = "";
 
-    // ✅ GROUP BY FLIGHT
-    const grouped = {};
-
     alerts.forEach(a => {
-      if (!grouped[a.flight_no]) {
-        grouped[a.flight_no] = [];
-      }
-      grouped[a.flight_no].push(a);
-    });
+
+    const block = document.createElement("div");
+    block.className = "alert-item";
+
+    // card style
+    block.style.background = "rgba(255,255,255,0.03)";
+    block.style.border = "1px solid rgba(255,255,255,0.08)";
+    block.style.borderLeft = `4px solid ${ALERT_COLORS[a.type] || "#00FAC2"}`;
+    block.style.borderRadius = "10px";
+    block.style.padding = "12px";
+    block.style.marginBottom = "12px";
+
+    // HEADER
+    const header = document.createElement("div");
+    header.style.fontWeight = "700";
+    header.style.marginBottom = "6px";
+    header.style.fontSize = "14px";
+    header.style.color = "#00FAC2";
+
+    const leader = a.message.split("|")[1]?.replace("Leader:", "").trim() || "";
+    header.innerText = `${a.flight_no} | Leader: ${leader}`;
+
+    block.appendChild(header);
+
+    // TYPE
+    const type = document.createElement("div");
+    type.style.fontSize = "11px";
+    type.style.fontWeight = "700";
+    type.style.marginTop = "6px";
+    type.style.color = ALERT_COLORS[a.type] || "#fff";
+    type.innerText = a.type.toUpperCase();
+
+    // MESSAGE
+    const msg = document.createElement("div");
+    msg.style.fontSize = "12px";
+    msg.style.color = "rgba(255,255,255,0.75)";
+    msg.style.marginTop = "4px";
+
+    msg.innerText = a.message.replace(`${a.flight_no} |`, "").trim();
+
+    block.appendChild(type);
+    block.appendChild(msg);
+
+    list.appendChild(block);
+
+  });
+
+
 
     Object.keys(grouped).forEach(flight => {
 
