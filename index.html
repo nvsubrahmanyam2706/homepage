@@ -1415,7 +1415,9 @@ async function loadAlerts() {
     type.style.fontSize = "11px";
     type.style.fontWeight = "700";
     type.style.marginTop = "6px";
-    type.style.color = ALERT_COLORS[a.type] || "#fff";
+    type.style.color = isDelay
+    ? (isLight ? "#991B1B" : "#FFDADA")
+    : (ALERT_COLORS[a.type] || "#fff");
     type.innerText = a.type.toUpperCase();
 
     // MESSAGE
@@ -1426,7 +1428,10 @@ async function loadAlerts() {
     : (isLight ? "#111111" : "rgba(255,255,255,0.75)");
     msg.style.marginTop = "4px";
 
-    msg.innerText = a.message.replace(`${a.flight_no} |`, "").trim();
+    msg.innerText = a.message
+    .replace(`${a.flight_no} |`, "")
+    .replace(/Leader:\s*[^|]+\|?/i, "")
+    .trim();
 
     block.appendChild(type);
     block.appendChild(msg);
