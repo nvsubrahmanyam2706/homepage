@@ -1415,12 +1415,16 @@ async function loadAlerts() {
       const block = document.createElement("div");
       block.className = "alert-item";
 
-      block.style.background = "rgba(255,255,255,0.03)";
-      block.style.border = "1px solid rgba(255,255,255,0.08)";
-      block.style.borderLeft = "4px solid #00FAC2";
-      block.style.borderRadius = "10px";
-      block.style.padding = "12px";
-      block.style.marginBottom = "12px";
+      if (a.type === "DELAY") {
+        block.style.background = "linear-gradient(135deg, rgba(220,38,38,0.25), rgba(0,0,0,0.9))";
+        block.style.border = "1px solid rgba(220,38,38,0.5)";
+        block.style.borderLeft = "4px solid #DC2626";
+        block.style.boxShadow = "0 8px 25px rgba(220,38,38,0.3)";
+      } else {
+        block.style.background = "rgba(255,255,255,0.03)";
+        block.style.border = "1px solid rgba(255,255,255,0.08)";
+        block.style.borderLeft = `4px solid ${ALERT_COLORS[a.type] || "#00FAC2"}`;
+      }
 
       // HEADER (AA8 | Leader...)
       const header = document.createElement("div");
@@ -1445,7 +1449,7 @@ async function loadAlerts() {
 
         const msg = document.createElement("div");
         msg.style.fontSize = "12px";
-        msg.style.color = "rgba(255,255,255,0.75)";
+        msg.style.color = a.type === "DELAY" ? "#FFDADA" : "rgba(255,255,255,0.75)";
         msg.style.marginBottom = "6px";
 
         msg.innerText = a.message.replace(`${a.flight_no} |`, "").trim();
