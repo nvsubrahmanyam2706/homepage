@@ -1368,7 +1368,14 @@ async function loadAlerts() {
     // card style
     const isLight = document.body.classList.contains("light");
 
-    if (a.type === "DELAY") {
+    const cleanMsg = a.message.toLowerCase();
+
+    const isDelay =
+      a.type === "DELAY" ||
+      cleanMsg.includes("delay") ||
+      cleanMsg.includes("min") && cleanMsg.includes("delay");
+
+    if (isDelay) {
       block.style.background = isLight
         ? "linear-gradient(135deg, #ffe4e6, #fff)"
         : "linear-gradient(135deg, rgba(220,38,38,0.25), rgba(0,0,0,0.9))";
@@ -1414,7 +1421,7 @@ async function loadAlerts() {
     // MESSAGE
     const msg = document.createElement("div");
     msg.style.fontSize = "12px";
-    msg.style.color = a.type === "DELAY"
+    msg.style.color = isDelay
     ? (isLight ? "#7F1D1D" : "#FFDADA")
     : (isLight ? "#111111" : "rgba(255,255,255,0.75)");
     msg.style.marginTop = "4px";
