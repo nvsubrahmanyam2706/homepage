@@ -954,6 +954,28 @@ body.light .alert-bell:hover {
   border-color: #008F66;
   box-shadow: 0 0 18px rgba(0,143,102,0.3);
 }
+
+body.light .alerts-panel h3 {
+  color: #111;
+}
+
+/* LIGHT MODE FIX */
+body.light .alerts-panel {
+  background: #ffffff;
+  color: #000000;
+}
+
+body.light .alerts-panel .alert-item {
+  color: #000000;
+  border-bottom: 1px solid #ddd;
+}
+
+body.light .alerts-panel h3 {
+  color: #000000;
+}
+
+
+
 /* Notification Bell */
 
 .alert-bell {
@@ -1307,6 +1329,12 @@ themeToggle.addEventListener('click', () => {
   localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
 });
 
+
+function updateBellCount(count) {
+  const badge = document.getElementById("alertCount");
+  badge.innerText = count;
+}
+
 // Load alerts from API
 async function loadAlerts() {
 
@@ -1318,7 +1346,9 @@ async function loadAlerts() {
     const count = document.getElementById("alertCount");
     const list = document.getElementById("alertsList");
 
-    count.textContent = data.alerts.length;
+    if (!window.alertsSeen) {
+      updateBellCount(data.alerts.length);
+    }
 
     list.innerHTML = "";
 
@@ -1349,8 +1379,15 @@ document.getElementById("alertBell").addEventListener("click", function(event) {
 
   const panel = document.getElementById("alertsPanel");
 
-  panel.style.display =
-    panel.style.display === "block" ? "none" : "block";
+  const isOpen = panel.style.display === "block";
+
+  panel.style.display = isOpen ? "none" : "block";
+
+  // ✅ RESET COUNT WHEN OPENING
+  if (!isOpen) {
+    updateBellCount(0);
+    window.alertsSeen = true;
+  }
 
 });
 
@@ -1365,6 +1402,9 @@ document.addEventListener("click", function() {
   const panel = document.getElementById("alertsPanel");
 
   panel.style.display = "none";
+
+  // OPTIONAL RESET
+  window.alertsSeen = false;
 
 });
 
