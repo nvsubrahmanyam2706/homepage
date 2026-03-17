@@ -1335,6 +1335,13 @@ function updateBellCount(count) {
   badge.innerText = count;
 }
 
+const ALERT_COLORS = {
+  FLIGHT_UPDATE: "#3B82F6",   // blue
+  TERMINAL_CHANGE: "#F59E0B", // amber
+  TIME_CHANGE: "#8B5CF6",     // purple
+  DELAY: "#DC2626"           // red
+};
+
 // Load alerts from API
 async function loadAlerts() {
 
@@ -1368,10 +1375,19 @@ async function loadAlerts() {
       const block = document.createElement("div");
       block.className = "alert-item";
 
+      block.style.background = "rgba(255,255,255,0.03)";
+      block.style.border = "1px solid rgba(255,255,255,0.08)";
+      block.style.borderLeft = "4px solid #00FAC2";
+      block.style.borderRadius = "10px";
+      block.style.padding = "12px";
+      block.style.marginBottom = "12px";
+
       // HEADER (AA8 | Leader...)
       const header = document.createElement("div");
       header.style.fontWeight = "700";
       header.style.marginBottom = "6px";
+      header.style.fontSize = "14px";
+      header.style.color = "#00FAC2";
       const first = grouped[flight][0];
       header.innerText = `${first.flight_no} | Leader: ${first.message.split("|")[1].replace("Leader:", "").trim()}`;
 
@@ -1380,10 +1396,19 @@ async function loadAlerts() {
       grouped[flight].forEach(a => {
 
         const type = document.createElement("div");
-        type.innerHTML = `<b>${a.type.toUpperCase()}</b>`;
+        type.style.fontSize = "11px";
+        type.style.fontWeight = "700";
+        type.style.marginTop = "8px";
+        type.style.color = ALERT_COLORS[a.type] || "#ffffff";
+
+        type.innerText = a.type.toUpperCase();
 
         const msg = document.createElement("div");
-        msg.innerText = a.message;
+        msg.style.fontSize = "12px";
+        msg.style.color = "rgba(255,255,255,0.75)";
+        msg.style.marginBottom = "6px";
+
+        msg.innerText = a.message.replace(`${a.flight_no} |`, "").trim();
 
         block.appendChild(type);
         block.appendChild(msg);
