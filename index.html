@@ -1343,27 +1343,54 @@ async function loadAlerts() {
     const res = await fetch("https://skybridge-flight-dashboard-6gvy.onrender.com/api/alerts");
     const data = await res.json();
 
-    const count = document.getElementById("alertCount");
     const list = document.getElementById("alertsList");
 
-    if (!window.alertsSeen) {
-      updateBellCount(data.alerts.length);
-    }
+    const alerts = data.alerts || [];
+
+    // ✅ COUNT ONLY UNSEEN
+    const unseen = alerts.filter(a => !a.seen);
+    updateBellCount(unseen.length);
 
     list.innerHTML = "";
 
-    data.alerts.forEach(a => {
+    // ✅ GROUP BY FLIGHT
+    const grouped = {};
 
-      const div = document.createElement("div");
-      div.className = "alert-item";
+    alerts.forEach(a => {
+      if (!grouped[a.flight_no]) {
+        grouped[a.flight_no] = [];
+      }
+      grouped[a.flight_no].push(a);
+    });
 
-      div.innerHTML = `
-        <b>${a.type.toUpperCase()}</b><br>
-        ${a.message}
-      `;
+    Object.keys(grouped).forEach(flight => {
 
-      list.appendChild(div);
+      const block = document.createElement("div");
+      block.className = "alert-item";
 
+      // HEADER (AA8 | Leader...)
+      const header = document.createElement("div");
+      header.style.fontWeight = "700";
+      header.style.marginBottom = "6px";
+      const first = grouped[flight][0];
+      header.innerText = `${first.flight_no} | Leader: ${first.message.split("|")[1].replace("Leader:", "").trim()}`;
+
+      block.appendChild(header);
+
+      grouped[flight].forEach(a => {
+
+        const type = document.createElement("div");
+        type.innerHTML = `<b>${a.type.toUpperCase()}</b>`;
+
+        const msg = document.createElement("div");
+        msg.innerText = a.message;
+
+        block.appendChild(type);
+        block.appendChild(msg);
+
+      });
+
+      list.appendChild(block);
     });
 
   } catch (e) {
@@ -1373,20 +1400,23 @@ async function loadAlerts() {
 }
 
 // Bell click toggle
-document.getElementById("alertBell").addEventListener("click", function(event) {
+document.getElementById("alertBell").addEventListener("click", async function(event) {
 
   event.stopPropagation();
 
   const panel = document.getElementById("alertsPanel");
-
   const isOpen = panel.style.display === "block";
 
   panel.style.display = isOpen ? "none" : "block";
 
-  // ✅ RESET COUNT WHEN OPENING
+  // ✅ WHEN OPEN → MARK AS SEEN
   if (!isOpen) {
+
+    await fetch("https://skybridge-flight-dashboard-6gvy.onrender.com/api/alerts/mark-seen", {
+      method: "POST"
+    });
+
     updateBellCount(0);
-    window.alertsSeen = true;
   }
 
 });
@@ -1402,9 +1432,6 @@ document.addEventListener("click", function() {
   const panel = document.getElementById("alertsPanel");
 
   panel.style.display = "none";
-
-  // OPTIONAL RESET
-  window.alertsSeen = false;
 
 });
 
