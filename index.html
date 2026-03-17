@@ -1403,7 +1403,7 @@ async function loadAlerts() {
     header.style.fontWeight = "700";
     header.style.marginBottom = "6px";
     header.style.fontSize = "14px";
-    header.style.color = isLight ? "#008F66" : "#00FAC2";
+    header.style.color = isLight ? "#065F46" : "#00FAC2";
 
     const leader = a.message.split("|")[1]?.replace("Leader:", "").trim() || "";
     header.innerText = `${a.flight_no} | Leader: ${leader}`;
@@ -1417,7 +1417,7 @@ async function loadAlerts() {
     type.style.marginTop = "6px";
     type.style.color = isDelay
     ? (isLight ? "#991B1B" : "#FFDADA")
-    : (ALERT_COLORS[a.type] || "#fff");
+    : (isLight ? "#374151" : (ALERT_COLORS[a.type] || "#fff"));
     type.innerText = a.type.toUpperCase();
 
     // MESSAGE
@@ -1425,7 +1425,7 @@ async function loadAlerts() {
     msg.style.fontSize = "12px";
     msg.style.color = isDelay
     ? (isLight ? "#991B1B" : "#FFDADA")
-    : (isLight ? "#111111" : "rgba(255,255,255,0.75)");
+    : (isLight ? "#1F2937" : "rgba(255,255,255,0.85)");
     msg.style.marginTop = "4px";
 
     msg.innerText = a.message
