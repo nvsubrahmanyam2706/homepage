@@ -1352,7 +1352,9 @@ async function loadAlerts() {
 
     const list = document.getElementById("alertsList");
 
-    const alerts = data.alerts || [];
+    const alerts = (data.alerts || []).sort((a, b) =>
+    new Date(b.created_at) - new Date(a.created_at)
+    );
 
     // ✅ COUNT ONLY UNSEEN
     const unseen = alerts.filter(a => !a.seen);
