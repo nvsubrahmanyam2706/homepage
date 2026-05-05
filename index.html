@@ -73,7 +73,7 @@ nav {
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 16px 48px;
+  padding: 16px clamp(16px,4vw,48px);
   background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(30px);
   border-bottom: 1px solid rgba(0, 250, 194, 0.2);
@@ -177,6 +177,20 @@ nav::after {
   .nav-subtitle {
     font-size: 9px;
   }
+
+  .nav-left {
+  position: static;
+  transform: none;
+  }
+
+  .nav-logo {
+    height: 60px;
+  }
+
+  .nav-center {
+    text-align: center;
+    padding-left: 0;
+  }
 }
 
 .nav-logo {
@@ -187,9 +201,10 @@ nav::after {
   filter: brightness(0) invert(1);
 }
 
+
 /* Hero Section */
 .hero {
-  padding: 140px 48px 40px;
+  padding: 140px clamp(16px,4vw,48px) 40px;
   text-align: center;
   position: relative;
   background: radial-gradient(circle at center top, rgba(0, 250, 194, 0.1) 0%, transparent 60%);
@@ -240,7 +255,6 @@ nav::after {
   max-width: 900px;
   margin: 0 auto 32px;
   line-height: 1.4;
-  white-space: nowrap;
 }
 
 .hero-main-title {
@@ -300,7 +314,7 @@ nav::after {
 
 /* Sections */
 .modules-section {
-  padding: 0 48px 50px;
+  padding: 0 clamp(16px,4vw,48px) 50px;
 }
 
 .section-header {
@@ -331,7 +345,7 @@ nav::after {
 /* Module Cards */
 .modules-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 32px;
   max-width: 1400px;
   margin: 0 auto 50px;
@@ -344,7 +358,8 @@ nav::after {
   text-decoration: none;
   color: #fff;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  height: 480px;
+  height: auto;
+  min-height: 360px;
   display: flex;
   flex-direction: column;
   border: 2px solid transparent;
@@ -466,7 +481,7 @@ nav::after {
 
 .module-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(28px, 3.5vw, 40px);
+  font-size: clamp(20px, 4vw, 40px);
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 8px;
@@ -538,13 +553,13 @@ nav::after {
 
 /* Activity Section */
 .activity-section {
-  padding: 50px 48px;
+  padding: 50px clamp(16px,4vw,48px);
   background: linear-gradient(to bottom, transparent, rgba(10, 10, 15, 0.5));
 }
 
 .activity-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
   max-width: 1400px;
   margin: 0 auto;
@@ -646,7 +661,7 @@ nav::after {
 
 /* Features Section */
 .features-section {
-  padding: 50px 48px;
+  padding: 50px clamp(16px,4vw,48px);
 }
 
 .features-grid {
@@ -746,7 +761,7 @@ nav::after {
 
 /* Footer */
 footer {
-  padding: 32px 48px;
+  padding: 32px clamp(16px,4vw,48px);
   text-align: center;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 0, 0, 0.5);
@@ -787,7 +802,7 @@ footer {
   }
 
   .module-card {
-    height: 420px;
+    height: auto;
   }
 
   .quick-stats {
@@ -797,6 +812,11 @@ footer {
 
   .hero-description {
     white-space: normal;
+  }
+
+  .quick-stats {
+  flex-direction: column;
+  align-items: center;
   }
 }
 
@@ -1064,6 +1084,18 @@ body.light .alerts-panel h3 {
   padding: 10px;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .alert-bell {
+    right: 70px;
+    top: 16px;
+  }
+
+  .theme-toggle {
+    right: 16px;
+    top: 16px;
+  }
 }
 
   </style>
